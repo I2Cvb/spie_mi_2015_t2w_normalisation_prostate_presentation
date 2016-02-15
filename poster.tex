@@ -1,10 +1,11 @@
-\documentclass[final]{beamer}
+\documentclass[final, size=a0]{beamer}
 \usepackage{grffile}
 \mode<presentation>
 \usetheme{le2i}
 \usepackage[english]{babel}
-%\usepackage[latin1]{inputenc}
+% \usepackage[latin1]{inputenc}
 \usepackage{amsmath,amsthm, amssymb, latexsym}
+\usepackage{multicol}
 \usepackage{multirow}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -26,7 +27,7 @@
 \usepackage[orientation=landscape,size=a0,scale=1.4,debug]{beamerposter}
 % change list indention level
 % \setdefaultleftmargin{3em}{}{}{}{}{}
-
+\usepackage[single=true, macros=true, xspace=true]{acro}
 
 \usepackage{array,booktabs,tabularx}
 \newcolumntype{Z}{>{\centering\arraybackslash}X} % centered tabularx columns
@@ -36,32 +37,49 @@
 
 \listfiles
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \graphicspath{{images/}}
- 
-\title{\huge Your Title }
-\author{Authors }
-\institute[Univerist\'e de Bourgogne]{Institute and Universities }
-\date[May. 26th 2015]{May. 26th 2015}
 
-%{Le2i-UMR CNRS 6306, BP 47870, 21078 Dijon, France\\
-%Computer Vision and Robotics Group, Campus Montilivi, Edifici PIV, s/n, 17071 Girona, Spain}
+\title{\huge Normalization of T2W-MRI Prostate Images using Rician \textit{a priori}}
+\author{G. Lema\^{i}tre, M. Rastgoo, J. Massich, J. C. Villanova, P. M. Walker, J. Freixenet, A. Meyer-Baese, F. M\'{e}riaudeau, and R. Mart\'{i}}
+\institute[LE2I-UBFC / ViCOROB-UdG]{LE2I - Universit\'{e} de Bourgogne France-Comt\'{e} / ViCOROB - Universitat de Girona}
+\date[February, 29th 2016]{February, 29th 2016}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% {Le2i-UMR CNRS 6306, BP 47870, 21078 Dijon, France\\
+% Computer Vision and Robotics Group, Campus Montilivi, Edifici PIV, s/n, 17071 Girona, Spain}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \newlength{\columnheight}
 \setlength{\columnheight}{91cm}
 
+\input{acronym_definition.tex}      % contains the acronims
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setbeamercolor*{block body}{bg=azulunam!10!white,fg=black}
+\setbeamercolor*{block title}{fg=white,bg=blueubfc!70!white}
+\setbeamerfont{block title}{size=\large,series=\bf}
+
+\setbeamercolor*{block title example}{fg=white, bg=greenubfc!70!white}
+\setbeamercolor*{block body example}{fg=niceblack, bg=azulunam!10!white}
+\setbeamerfont{block title example}{size=\large,series=\bf}
+
+\setbeamercolor*{block title alerted}{fg=white, bg=purpleubfc!70!white}
+\setbeamercolor*{block body alerted}{fg=niceblack, bg=azulunam!10!white}
+\setbeamerfont{block title alerted}{size=\large,series=\bf}
+
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{document}
+\graphicspath{ {./images/article/} }
 \begin{frame}
   \begin{columns}
     % ---------------------------------------------------------%
     % Set up a column 
     
-    %----------------------------------------------------------%
-    %             		FIRST COLUMN 						  %
-	%----------------------------------------------------------%
+    % ----------------------------------------------------------%
+    % FIRST COLUMN 						  %
+    % ----------------------------------------------------------%
     \begin{column}{.33\textwidth}
       \begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
         \begin{minipage}[T]{.95\textwidth}  % tweaks the width, makes a new \textwidth
@@ -69,105 +87,219 @@
             % Since all columns are the same length, it is all nice and tidy.  You have to get the height empirically
             % ---------------------------------------------------------%
 
-            % fill each column with content            
-            \begin{block}{Abstract}
-              \lipsum[1-2]
-            \end{block}
-            \begin{block}{Introduction}
+            % Introduction            
+            \begin{exampleblock}{Introduction}
               \begin{itemize}
-               \item \textbf{\color{orounam}First point }
-               \begin{itemize}
-               		\item Description 
-               		\item More description
-               \end{itemize}  
-              \end{itemize}                 
-            \end{block}
-            \begin{block}{Second block}
-            \begin{itemize}
-            	\item \textbf{\color{orounam}Random forest (RF) ensemble}
-            	\item []
-            	\item []
-            	\begin{columns}
-            		\begin{column}{.54\textwidth}
-            		\centering{Training}\\
-            			\includegraphics[width = 0.9\textwidth, height = 0.15\textheight]{images/framework/RF_train.png}
-            		\end{column}
-            		\begin{column}{.44\textwidth}
-            		\centering{Testing}\\
-            			\includegraphics[width = 0.9\textwidth, height = 0.15\textheight]{images/framework/RF_test.png}
-            		\end{column}
-            \end{columns}
-            \end{itemize}
-            \end{block}          
-            \vfill
-         
-           }
+              \item \Ac{cap} has been reported the \textbf{second} most frequently diagnosed cancer of men accounting for 13.6\%~\cite{ferlay2010estimates}.
+              \item \Ac{cad} systems have been proposed in order to assist the radiologists and generally consist of four stages: (i)~\textbf{\emph{pre-processing}}, (ii)~\emph{segmentation}, (iii)~\emph{registration}, and (iv)~\emph{classification}~\cite{Lemaitre2015}.
+              \item \textbf{Normalization} is crucial to overcome the \textit{inter-patient} intensity variations, enforce the \textit{repeatability}, and achieve a \textit{robust} classification.
+              \end{itemize}
+            \end{exampleblock}
+
+            % State-of-the-art methods
+            \begin{exampleblock}{State-of-the-art method}
+              \begin{itemize}
+                \item Artan\,\textit{et al.}~\cite{artan2010prostate} and Ozer\,\textit{et al.}~\cite{ozer2010supervised} used the \emph{$z$-score} (see Eq.\,\eqref{eq:zscore}) to normalize T2W-MRI.
+                \item Lv\,\textit{et al.}~\cite{lv2009computerized} and Viswanath\,\textit{et al.}~\cite{viswanath2012central} used methods based on piecewise-linear normalization~\cite{nyul2000new}.
+              \end{itemize}
+            \end{exampleblock}
+
+            % Contributions
+            \begin{exampleblock}{Contributions}
+              We proposed two alternative methods:
+              \begin{itemize}
+              \item[(i)] a \emph{model-based} approach using Rician \textit{a priori};
+              \item[(ii)] a \emph{non-parametric based} approach based on the \ac{srsf} representation~\cite{Srivastava2011}.
+              \end{itemize}
+            \end{exampleblock}
+
+            % Comparison Rician Gaussian            
+            \begin{alertblock}{Model-based normalization}
+              
+              \begin{columns}
+                \begin{column}{.5\textwidth}
+                  
+                  % Gaussian normalization
+                  \begin{center}
+                    \textbf{Gaussian normalization}
+                  \end{center}
+
+                \end{column}
+                \begin{column}{.5\textwidth}
+                  \begin{center}
+                    \textbf{Rician normalization}
+                  \end{center}
+                  % Rician normalization
+                
+                \end{column}
+              \end{columns}
+
+
+              \begin{figure}
+                \centering
+                \subfloat[][]{
+                  \label{fig:p1}\includegraphics[width=0.48\textwidth]{03}}\hfill
+                \subfloat[][]{
+                  \label{fig:p2}\includegraphics[width=0.48\textwidth]{06}}\hfill
+                \caption{Visual evaluation of the goodness of fitting using Rician and Gaussian distribution.}
+                \label{fig:fitting}
+              \end{figure}
+
+
+              \begin{columns}
+                \begin{column}{.5\textwidth}
+                  % Gaussian normalization
+                  \begin{equation}\footnotesize
+                    I_{s}(x) = \frac{I_{r}(x) - \mu_{G}}{\sigma_{G}} \ .
+                    \label{eq:zscore}
+                  \end{equation}
+                \end{column}
+                \begin{column}{.5\textwidth}
+                  % Rician normalization
+                  \begin{equation}\footnotesize
+                    I_{s}(x) = \frac{I_{r}(x) - \mu_{R}}{\sigma_{R}} \ ,
+                    \label{eq:zscorerician}
+                  \end{equation}
+                  \begin{equation}\footnotesize
+                    \mu_{R} = \sigma  \sqrt{\frac{\pi}{2}}\,\,L_{1/2}(-\frac{\nu^2}{2\sigma^2})  \ ,
+                    \label{eq:meanr}
+                  \end{equation}
+                  \begin{equation}\footnotesize
+                    \sigma_{R} = 2\sigma^2+\nu^2-\frac{\pi\sigma^2}{2}L_{1/2}^2\left(\frac{-\nu^2}{2\sigma^2}\right)  \ .
+                    \label{eq:var}
+                  \end{equation}
+                \end{column}
+              \end{columns}                
+
+
+            \end{alertblock}
+            
+          }
         \end{minipage}
       \end{beamercolorbox}
     \end{column}
-    %----------------------------------------------------------------%
-    %                      SECOND COLUMN                             % 
-    %----------------------------------------------------------------%
+    % ----------------------------------------------------------------%
+    % SECOND COLUMN                             % 
+    % ----------------------------------------------------------------%
     \begin{column}{.33\textwidth}
       \begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
         \begin{minipage}[T]{.95\textwidth}  % tweaks the width, makes a new \textwidth
           \parbox[t][\columnheight]{\textwidth}{ % must be some better way to set the the height, width and textwidth simultaneously
             % Since all columns are the same length, it is all nice and tidy.  You have to get the height empirically
             % ---------------------------------------------------------%
+            
+            % Non-parametric normalization
+            \begin{alertblock}{Non-parametric normalization}
 
-            % fill each column with content            
-            \begin{block}{Franework}
-              \lipsum[1-2]
-                 \begin{equation}
-                   {n! \over k!(n-k)!} = {n \choose k}
-                 \end{equation}
-                 \lipsum[1]\cite{barata2014color, barata2013towards, barata2013role, barata2013two, barata2014bag}
+              \begin{columns}
+                % Piecewise-linear normalization
+                \begin{column}{.5\textwidth}
+                  \begin{center}
+                    \textbf{Piecewise-linear normalization}
+                  \end{center}
+                \end{column}
+                % SRSF-based normalization
+                \begin{column}{.5\textwidth}
+                  \begin{center}
+                    \textbf{SRSF-based normalization}
+                  \end{center}
+                \end{column}
+              \end{columns}
+              
+              \begin{figure}
+                \centering
+                \subfloat[][]{
+                  \label{fig:piecewiselinear}\includegraphics[width=0.48\textwidth]{piecewise-linear.png}}\hfill
+                \subfloat[][]{
+                  \label{fig:srsf}\includegraphics[width=0.48\textwidth]{srsf.png}}\hfill
+                \caption{Comparison of warping function obtained with \protect\subref{fig:piecewiselinear} piecewise-linear normalization and \protect\subref{fig:srsf} \acs{srsf}-based normalization.}
+                \label{fig:non-parametric}
+              \end{figure}
+            \end{alertblock}
+            
+            
+            % Quantitative results
+            \begin{block}{Quantitative results}
+              \begin{figure}
+                \centering
+                \subfloat[][]{
+                  \label{fig:qtfull}\includegraphics[width=0.48\textwidth]{quantitative_1.png}}\hfill
+                \subfloat[][]{
+                  \label{fig:qtcap}\includegraphics[width=0.48\textwidth]{quantitative_2.png}}
+                \caption{Spectral evaluation using \ac{pca} decomposition: \protect\subref{fig:qtfull} evaluation considering the full prostate, \protect\subref{fig:qtcap} evaluation considering only the \ac{cap}.}
+                \label{fig:qt}
+              \end{figure}
+              
+              \begin{itemize}
+                \item Rician normalization outperforms the other methods: \ac{auc} of $0.9974$ and $0.9824$ considering the full prostate and \ac{cap}, respectively.
+              \end{itemize}
+
             \end{block}
-            \vfill
-  
-
-         
-           }
+            
+          }         
         \end{minipage}
       \end{beamercolorbox}
     \end{column}
-    %----------------------------------------------------------%
-    %             		Third COLUMN 						  %
-	%----------------------------------------------------------%
-	\begin{column}{.33\textwidth}
-	\begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
+    % ----------------------------------------------------------%
+    % Third COLUMN 						  %
+    % ----------------------------------------------------------%
+    \begin{column}{.33\textwidth}
+      \begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
         \begin{minipage}[T]{.95\textwidth}  % tweaks the width, makes a new \textwidth
           \parbox[t][\columnheight]{\textwidth}{ % must be some better way to set the the height, width and textwidth simultaneously
             % Since all columns are the same length, it is all nice and tidy.  You have to get the height empirically
-            \begin{block}{Fourth block}
-            	 \begin{itemize}
-            		\item \textbf{\color{orounam} title }
-            		\begin{itemize}
-            		 \item Description 
-            		\end{itemize}
-            	 \end{itemize}
-                 \lipsum[1-2]
+            
+            % Qualitative results
+            \begin{block}{Qualitative results}
+              \begin{figure}
+                \centering
+                \includegraphics[width=1.\textwidth]{qualitative.png}
+                \caption{Qualitative evaluation by visual inspection of the alignment of the \ac{pdf}s for the full prostate and the \ac{cap}.}
+                \label{fig:qu}
+              \end{figure}
+              
+              \begin{itemize}
+                \item All the methods address the problem of the \ac{pdf} alignment of the full prostate data.
+                \item However, the Rician normalization outperforms the other methods when focusing solely on the \ac{cap} data.
+              \end{itemize}
+
             \end{block}
-            \begin{block}{References}
-              \bibliography{refs2}
- 			  \bibliographystyle{apalike}
-            \end{block}
-            }
+
+            % Conclusion
+            \begin{exampleblock}{Conclusion}
+              Comparisons show that the Rician normalization outperforms the Gaussian, \acs{srsf}-based, and piecewise-linear normalization for T2W-\acs{mri} prostate images normalization.
+            \end{exampleblock}
+
+            % \begin{block}{Acknowledgments}
+            %   This work was supported by the Generalitat de Catalunya (grant nb. FI-DGR2012) and the Regional Council of Burgundy (grant nb. 2015-9201AAO050S02760).
+            %   Calculations were performed using HPC resources from DSI-CCUB.
+            % \end{block}
+
+                % References
+            \begin{exampleblock}{References}
+                \tiny{\bibliography{literature_review}}
+                \bibliographystyle{amsalpha}
+            \end{exampleblock}
+
+            
+          }
         \end{minipage}
-    \end{beamercolorbox}    
-	\end{column}
+      \end{beamercolorbox}    
+
+    \end{column}
     % ---------------------------------------------------------%
     % end the column
   \end{columns}
   \vskip1ex
 
-  %\tiny\hfill\textcolor{ta2gray}{Created with \LaTeX \texttt{beamerposter}  \url{http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php}}
-  \tiny\hfill{Created with \LaTeX \texttt{beamerposter}  \url{http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php} \hskip1em}
+  % \tiny\hfill\textcolor{ta2gray}{Created with \LaTeX \texttt{beamerposter}  \url{http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php}}
+  % \tiny\hfill{Created with \LaTeX \texttt{beamerposter}  \url{http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php} \hskip1em}
 \end{frame}
+
 \end{document}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-PDF-mode: t

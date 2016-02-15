@@ -21,6 +21,11 @@
 \definecolor{nicewhite}{HTML}{FFFFFF}
 \definecolor{niceblack}{HTML}{333333}
 
+\definecolor{greenubfc}{HTML}{A6CE38}
+\definecolor{purpleubfc}{HTML}{B41E8E}
+\definecolor{greyubfc}{HTML}{54666F}
+\definecolor{blueubfc}{HTML}{0571BC}
+
 % Defining the logo of the Le2i 
 \newcommand{\logoimate}{./images/logos/le2i-logo.pdf}
 \newcommand{\logoblanco}{./images/logos/le2i-logo-white.pdf}
@@ -28,6 +33,15 @@
 % Define the logo of the Universite de Bourgogne
 \newcommand{\logoub}{./images/logos/logo-ub.pdf}
 \newcommand{\logoubnobg}{./images/logos/logo-ub-no-bg.pdf}
+
+% Define the logo of UBFC
+\newcommand{\logoubfc}{./images/logos/logo-ubfc.pdf}
+
+% Define the logo of UdG
+\newcommand{\logoudg}{./images/logos/logo-udg.pdf}
+
+% Define the logo of ViCOROB
+\newcommand{\logovicorob}{./images/logos/logo-vicorob.pdf}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -55,14 +69,17 @@
   \begin{beamercolorbox}[wd=\paperwidth]{headline}
    \vskip1ex
     \begin{columns}[T]
-      \begin{column}{.02\paperwidth}
+      \begin{column}{.01\paperwidth}
       \end{column}
       \begin{column}{.08\paperwidth}
         \vskip8ex
 		\hskip4ex
-	    \includegraphics[width=1\linewidth]{\logoub}
+	    \includegraphics[width=1\linewidth]{\logoubfc}~~~~~
+            \includegraphics[width=.7\linewidth]{\logoudg}
 	  	\vskip4ex	
       \end{column}
+      % \begin{column}{.01\paperwidth}
+      % \end{column}
       \begin{column}{.8\paperwidth}
         \vskip4ex
         \raggedleft
@@ -72,13 +89,15 @@
 	  \usebeamercolor{institute in headline}{\color{fg}\large{\insertinstitute}\\[1ex]}   
 	\end{center}  
       \end{column}
-      \begin{column}{.08\paperwidth}  
+      \hspace{-6cm}
+      \begin{column}{.09\paperwidth}  
         \vskip8ex
 		\hskip4ex
-	  	\includegraphics[width=0.6\linewidth]{\logoblanco}
+	  	\includegraphics[width=0.5\linewidth]{\logoimate}~~~~~
+                \includegraphics[width=0.6\linewidth]{\logovicorob}
 	  	\vskip4ex	
       \end{column}
-      \begin{column}{.02\paperwidth}
+      \begin{column}{.01\paperwidth}
       \end{column}
     \end{columns}
   \end{beamercolorbox}
@@ -97,9 +116,9 @@
   
   \leavevmode%
   \begin{beamercolorbox}[ht=4ex,leftskip=1em,rightskip=1em]{author in head/foot}%
-    \texttt{[Le2i]: http://le2i.cnrs.fr/?lang=fr }
+    \texttt{[LE2I]: http://le2i.cnrs.fr/ - [ViCOROB]: http://vicorob.udg.edu/ }
     \hfill
-    \texttt{Your email}
+    \texttt{guillaume.lemaitre@udg.edu}
     \vskip1ex
   \end{beamercolorbox}
   \vskip0pt%
@@ -125,3 +144,5 @@
 \setbeamerfont{itemize/enumerate body}{size=\normalsize}
 \setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
 \setbeamerfont{itemize/enumerate subsubbody}{size=\normalsize}
+
+\setbeamertemplate{blocks}[shadow=true]
