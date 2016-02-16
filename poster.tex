@@ -34,6 +34,10 @@
 \newcommand{\pphantom}{\textcolor{ta3aluminium}} % phantom introduces a vertical space in p formatted table columns??!!
 
 \usepackage{lipsum}
+\usepackage{ragged2e}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
 
 \listfiles
 
@@ -90,28 +94,38 @@
             % Introduction            
             \begin{exampleblock}{Introduction}
               \begin{itemize}
+              \justifying
               \item \Ac{cap} has been reported the \textbf{second} most frequently diagnosed cancer of men accounting for 13.6\%~\cite{ferlay2010estimates}.
               \item \Ac{cad} systems have been proposed in order to assist the radiologists and generally consist of four stages: (i)~\textbf{\emph{pre-processing}}, (ii)~\emph{segmentation}, (iii)~\emph{registration}, and (iv)~\emph{classification}~\cite{Lemaitre2015}.
               \item \textbf{Normalization} is crucial to overcome the \textit{inter-patient} intensity variations, enforce the \textit{repeatability}, and achieve a \textit{robust} classification.
               \end{itemize}
             \end{exampleblock}
 
+            \vspace{.8cm}
+
             % State-of-the-art methods
             \begin{exampleblock}{State-of-the-art method}
               \begin{itemize}
-                \item Artan\,\textit{et al.}~\cite{artan2010prostate} and Ozer\,\textit{et al.}~\cite{ozer2010supervised} used the \emph{$z$-score} (see Eq.\,\eqref{eq:zscore}) to normalize T2W-MRI.
-                \item Lv\,\textit{et al.}~\cite{lv2009computerized} and Viswanath\,\textit{et al.}~\cite{viswanath2012central} used methods based on piecewise-linear normalization~\cite{nyul2000new}.
+              \justifying
+              \item Artan\,\textit{et al.}~\cite{artan2010prostate} and Ozer\,\textit{et al.}~\cite{ozer2010supervised} used the \emph{$z$-score} (see Eq.\,\eqref{eq:zscore}) to normalize T2W-MRI.
+              \item Lv\,\textit{et al.}~\cite{lv2009computerized} and Viswanath\,\textit{et al.}~\cite{viswanath2012central} used methods based on piecewise-linear normalization~\cite{nyul2000new}.
               \end{itemize}
             \end{exampleblock}
 
+            \vspace{.8cm}
+
             % Contributions
             \begin{exampleblock}{Contributions}
+              \justifying
               We proposed two alternative methods:
               \begin{itemize}
+              \justifying
               \item[(i)] a \emph{model-based} approach using Rician \textit{a priori};
               \item[(ii)] a \emph{non-parametric based} approach based on the \ac{srsf} representation~\cite{Srivastava2011}.
               \end{itemize}
             \end{exampleblock}
+
+            \vspace{.8cm}
 
             % Comparison Rician Gaussian            
             \begin{alertblock}{Model-based normalization}
@@ -130,7 +144,7 @@
                     \textbf{Rician normalization}
                   \end{center}
                   % Rician normalization
-                
+                  
                 \end{column}
               \end{columns}
 
@@ -149,17 +163,18 @@
               \begin{columns}
                 \begin{column}{.5\textwidth}
                   % Gaussian normalization
-                  \begin{equation}\footnotesize
+                  \begin{equation}\small
                     I_{s}(x) = \frac{I_{r}(x) - \mu_{G}}{\sigma_{G}} \ .
                     \label{eq:zscore}
                   \end{equation}
                 \end{column}
                 \begin{column}{.5\textwidth}
                   % Rician normalization
-                  \begin{equation}\footnotesize
+                  \begin{equation}\small
                     I_{s}(x) = \frac{I_{r}(x) - \mu_{R}}{\sigma_{R}} \ ,
                     \label{eq:zscorerician}
                   \end{equation}
+                  \noindent where,
                   \begin{equation}\footnotesize
                     \mu_{R} = \sigma  \sqrt{\frac{\pi}{2}}\,\,L_{1/2}(-\frac{\nu^2}{2\sigma^2})  \ ,
                     \label{eq:meanr}
@@ -170,7 +185,12 @@
                   \end{equation}
                 \end{column}
               \end{columns}                
-
+              \vspace{1cm}
+              \begin{itemize}
+              \justifying
+              \item \acs{mri} data theoretically follows a Rayleigh distribution for a low \acs{snr} scenarios while it appears closer to a Gaussian distribution when the \ac{snr} increases~\cite{bernstein1989improved}.
+              \item The Rician model better fits the data than the Gaussian model in terms of \acs{rms}.
+              \end{itemize}
 
             \end{alertblock}
             
@@ -215,8 +235,47 @@
                 \caption{Comparison of warping function obtained with \protect\subref{fig:piecewiselinear} piecewise-linear normalization and \protect\subref{fig:srsf} \acs{srsf}-based normalization.}
                 \label{fig:non-parametric}
               \end{figure}
+              
+              \begin{columns}
+                \begin{column}{.5\textwidth}
+                  % Piecewise-linear normalization
+                  \begin{itemize}
+                  \justifying
+                  \item Minimize the distance between a set of standardized landmarks $\mu_i$ (i.e., atlas) and a set of non-normalized landmarks $\lambda_i$.
+                  \end{itemize}
+
+                  \vspace{.1cm}
+
+                  \begin{equation}
+                    \argmin_{d} d(\lambda_i, \mu_i) \ ,
+                  \end{equation}
+                \end{column}
+                \begin{column}{.5\textwidth}
+                  % Rician normalization
+                  \begin{itemize}
+                    \justifying
+                  \item Minimize the distance between a mean \acs{pdf} $\mu_f$ (i.e., the Karcher mean) and a given patient \ac{pdf} $f_i$.
+                  \end{itemize}
+
+                  \vspace{.1cm}
+
+                  \begin{equation}
+                    \argmin_{\gamma \in \Gamma} D_y(\mu_f, f_i)^2 \ ,
+                  \end{equation}
+                \end{column}
+              \end{columns}
+
+              \vspace{1cm}
+
+              \begin{itemize}
+                \justifying
+              \item \acs{srsf}-based normalization lead to smoother transition than piecewise-linear normalization.
+              \item \acs{srsf}-based normalization can get unstable due to the noise.
+              \end{itemize}
+
             \end{alertblock}
-            
+
+            \vspace{2cm}            
             
             % Quantitative results
             \begin{block}{Quantitative results}
@@ -231,7 +290,8 @@
               \end{figure}
               
               \begin{itemize}
-                \item Rician normalization outperforms the other methods: \ac{auc} of $0.9974$ and $0.9824$ considering the full prostate and \ac{cap}, respectively.
+              \justifying
+              \item Rician normalization outperforms the other methods: \ac{auc} of $0.9974$ and $0.9824$ considering the full prostate and \ac{cap}, respectively.
               \end{itemize}
 
             \end{block}
@@ -259,14 +319,16 @@
               \end{figure}
               
               \begin{itemize}
-                \item All the methods address the problem of the \ac{pdf} alignment of the full prostate data.
-                \item However, the Rician normalization outperforms the other methods when focusing solely on the \ac{cap} data.
+              \justifying
+              \item All the methods address the problem of the \ac{pdf} alignment of the full prostate data.
+              \item However, the Rician normalization outperforms the other methods when focusing solely on the \ac{cap} data.
               \end{itemize}
 
             \end{block}
 
             % Conclusion
             \begin{exampleblock}{Conclusion}
+              \justifying
               Comparisons show that the Rician normalization outperforms the Gaussian, \acs{srsf}-based, and piecewise-linear normalization for T2W-\acs{mri} prostate images normalization.
             \end{exampleblock}
 
@@ -275,10 +337,11 @@
             %   Calculations were performed using HPC resources from DSI-CCUB.
             % \end{block}
 
-                % References
+            % References
             \begin{exampleblock}{References}
-                \tiny{\bibliography{literature_review}}
-                \bibliographystyle{amsalpha}
+              \renewcommand{\thepage}{}
+              \tiny{\bibliography{literature_review}}
+              \bibliographystyle{amsalpha}
             \end{exampleblock}
 
             
