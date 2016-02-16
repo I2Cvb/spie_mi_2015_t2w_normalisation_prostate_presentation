@@ -59,7 +59,7 @@
 \input{acronym_definition.tex}      % contains the acronims
 
 
-\setbeamercolor*{block body}{bg=azulunam!10!white,fg=black}
+\setbeamercolor*{block body}{bg=azulunam!10!white,fg=niceblack}
 \setbeamercolor*{block title}{fg=white,bg=blueubfc!70!white}
 \setbeamerfont{block title}{size=\large,series=\bf}
 
@@ -72,6 +72,8 @@
 \setbeamerfont{block title alerted}{size=\large,series=\bf}
 
 \setbeamertemplate{bibliography item}{\insertbiblabel}
+
+\setbeamertemplate{caption}[numbered]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{document}
@@ -100,8 +102,8 @@
               \item \textbf{Normalization} is crucial to overcome the \textit{inter-patient} intensity variations, enforce the \textit{repeatability}, and achieve a \textit{robust} classification.
               \end{itemize}
             \end{exampleblock}
-
-            \vspace{.8cm}
+            
+            \vspace{.5cm}
 
             % State-of-the-art methods
             \begin{exampleblock}{State-of-the-art method}
@@ -112,7 +114,7 @@
               \end{itemize}
             \end{exampleblock}
 
-            \vspace{.8cm}
+            \vspace{.5cm}
 
             % Contributions
             \begin{exampleblock}{Contributions}
@@ -125,30 +127,11 @@
               \end{itemize}
             \end{exampleblock}
 
-            \vspace{.8cm}
+            \vspace{.5cm}
 
             % Comparison Rician Gaussian            
             \begin{alertblock}{Model-based normalization}
-              
-              \begin{columns}
-                \begin{column}{.5\textwidth}
-                  
-                  % Gaussian normalization
-                  \begin{center}
-                    \textbf{Gaussian normalization}
-                  \end{center}
-
-                \end{column}
-                \begin{column}{.5\textwidth}
-                  \begin{center}
-                    \textbf{Rician normalization}
-                  \end{center}
-                  % Rician normalization
-                  
-                \end{column}
-              \end{columns}
-
-
+            
               \begin{figure}
                 \centering
                 \subfloat[][]{
@@ -159,6 +142,26 @@
                 \label{fig:fitting}
               \end{figure}
 
+              \vspace{-.5cm}
+
+              \begin{columns}
+                \begin{column}{.5\textwidth}
+                  
+                  % Gaussian normalization
+                  \begin{center}
+                    \textbf{Gaussian normalization}
+                  \end{center}
+
+                \end{column}
+                \begin{column}{.5\textwidth}
+                  % Rician normalization
+                  \begin{center}
+                    \textbf{Rician normalization}
+                  \end{center}
+                \end{column}
+              \end{columns}
+
+              \vspace{1cm}
 
               \begin{columns}
                 \begin{column}{.5\textwidth}
@@ -243,12 +246,6 @@
                   \justifying
                   \item Minimize the distance between a set of standardized landmarks $\mu_i$ (i.e., atlas) and a set of non-normalized landmarks $\lambda_i$.
                   \end{itemize}
-
-                  \vspace{.1cm}
-
-                  \begin{equation}
-                    \argmin_{d} d(\lambda_i, \mu_i) \ ,
-                  \end{equation}
                 \end{column}
                 \begin{column}{.5\textwidth}
                   % Rician normalization
@@ -256,12 +253,6 @@
                     \justifying
                   \item Minimize the distance between a mean \acs{pdf} $\mu_f$ (i.e., the Karcher mean) and a given patient \ac{pdf} $f_i$.
                   \end{itemize}
-
-                  \vspace{.1cm}
-
-                  \begin{equation}
-                    \argmin_{\gamma \in \Gamma} D_y(\mu_f, f_i)^2 \ ,
-                  \end{equation}
                 \end{column}
               \end{columns}
 
@@ -270,13 +261,25 @@
               \begin{itemize}
                 \justifying
               \item \acs{srsf}-based normalization lead to smoother transition than piecewise-linear normalization.
-              \item \acs{srsf}-based normalization can get unstable due to the noise.
               \end{itemize}
 
             \end{alertblock}
 
-            \vspace{2cm}            
-            
+            \vspace{.2cm}
+
+            % Dataset
+            \begin{block}{T2W-MRI prostate dataset}
+              \begin{itemize}
+                \justifying
+              \item 3 Tesla whole body MRI scanner.
+              \item 17 patients manually segmented by experienced radiologist.
+              \item Publicly available at \texttt{http://visor.udg.edu/i2cvb/}.
+              \end{itemize}
+
+            \end{block}
+
+            \vspace{.2cm}
+
             % Quantitative results
             \begin{block}{Quantitative results}
               \begin{figure}
@@ -285,7 +288,7 @@
                   \label{fig:qtfull}\includegraphics[width=0.48\textwidth]{quantitative_1.png}}\hfill
                 \subfloat[][]{
                   \label{fig:qtcap}\includegraphics[width=0.48\textwidth]{quantitative_2.png}}
-                \caption{Spectral evaluation using \ac{pca} decomposition: \protect\subref{fig:qtfull} evaluation considering the full prostate, \protect\subref{fig:qtcap} evaluation considering only the \ac{cap}.}
+                \caption{Eigenvalue decomposition to evaluate the alignment of the \acs{pdf}s: \protect\subref{fig:qtfull} evaluation considering the full prostate, \protect\subref{fig:qtcap} evaluation considering only the \ac{cap}.}
                 \label{fig:qt}
               \end{figure}
               
